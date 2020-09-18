@@ -185,7 +185,7 @@ export default class Game {
             this.points.life++;
 
             if (this.points.life === 2) {
-                fetch('https://ror-game.herokuapp.com//api')
+                fetch('https://ror-game.herokuapp.com/api')
                 .then(response => response.json())
                 .then(data => this.bestResults = data);
             }
