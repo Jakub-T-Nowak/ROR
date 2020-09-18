@@ -73,7 +73,6 @@ export default class Circle extends ObjectC {
         }
 
         if (this.i === 252) {
-            console.log(252);
             this.flag = 1;
         }
         if (this.i === 100) {

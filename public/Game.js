@@ -25,6 +25,8 @@ export default class Game {
     canvas;
     context;
 
+    bestResults;
+
     counterWhenLifeIsLost = 0;
     flagForEnter = 0;
 
@@ -115,6 +117,26 @@ export default class Game {
                     r.counterWhenLifeIsLost = 0;
                     r.flagForEnter = 1;
 
+
+                    
+
+
+                    // fetch('http://localhost:3000/api', {
+                    //     method: 'POST',
+                    //     headers: {
+                    //       'Content-Type': 'application/json'
+                    //     },
+                    //     body: JSON.stringify({
+                    //         title: 'Ooo'
+                    //     })
+                    // }).then(function (response) {
+                    //         if (response.ok) {
+                    //             return response.json();
+                    //         }
+                    // });
+
+
+
                     r.points.life = 0;
                     r.dots.points = 0;
                     r.dots.makeDotsArray();
@@ -162,6 +184,19 @@ export default class Game {
             this.counterWhenLifeIsLost++;
             this.points.life++;
 
+            if (this.points.life === 2) {
+                fetch('http://localhost:3000/api')
+                .then(response => response.json())
+                .then(data => this.bestResults = data);
+            }
+
+            if (this.points.life === 3) {
+                
+                //this.bestResults[9].name + ' ' + this.bestResults[9].score
+
+                this.flagForEnter = 2;
+            }
+
             //starting position for Circle and triangles
             this.circle.b = this.circle.speedX = this.circle.speedY = this.circle.triangle2 = 0;
             this.circle.x = 20;
@@ -174,20 +209,51 @@ export default class Game {
         
         //window with comunicats
         if (this.counterWhenLifeIsLost > 0 && this.counterWhenLifeIsLost < 70) {
-            this.context.clearRect(150, 180, 220, 160);//(x,y,L,H)
-            var ctx = this.context;
-            ctx.beginPath();
-            ctx.rect(150,180,220,160);
-            ctx.stroke();
-            ctx.fillStyle = "white";
-            ctx.font = "25px Arial";
-
             if (this.points.life !== 3) {
+                this.context.clearRect(150, 180, 220, 160);//(x,y,L,H)
+                var ctx = this.context;
+                ctx.beginPath();
+                ctx.rect(150,180,220,160);
+                ctx.stroke();
+                ctx.fillStyle = "white";
+                ctx.font = "25px Arial";
                 ctx.fillText("You lost life" ,190,265);
             } else {
-                ctx.fillText("Game Over" ,192,255);
+                this.context.clearRect(140, 20, 240, 480);//(x,y,L,H)
+                var ctx = this.context;
+                ctx.beginPath();
+                ctx.rect(140, 20, 240, 480);
+                ctx.stroke();
+                ctx.fillStyle = "white";
+                ctx.font = "25px Arial";
+
+
+
+                ctx.fillText("Game Over" ,192, 190);
                 ctx.font = "15px Arial";
-                ctx.fillText("Press ENTER for new game" ,171,295);
+                ctx.fillText("Press ENTER for new game" ,171,220);
+                //----------------------------------------------------------------------------
+                //if (this.dots.points > (this.bestResults[9].score/10)) {
+                    ctx.fillText('Records', 215, 265);
+                    ctx.fillText('Name', 155, 290);
+                    ctx.fillText('Score' , 250, 290);
+                    ctx.fillText('Date' , 305, 290);
+
+                    var pos = 315;
+                    this.bestResults.forEach(player => {
+                        ctx.fillText(player.name , 155, pos);
+                        ctx.fillText(player.score , 250, pos);
+
+                        var date = new Date(player.date);
+                        const ye = new Intl.DateTimeFormat('en', { year: '2-digit' }).format(date);
+                        const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(date);
+                        const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
+
+                        ctx.fillText(`${da}-${mo}-${ye}` , 305, pos);
+                        pos = pos + 20;
+                    });
+                //}
+                //----------------------------------------------------------------------------
             }
 
             this.context.clearRect(205, 42, 110, 115);
@@ -198,10 +264,6 @@ export default class Game {
             }
         } else {
             this.counterWhenLifeIsLost = 0;
-        }
-        
-        if (this.points.life === 3) {
-            this.flagForEnter = 2;
         }
     }
 }
