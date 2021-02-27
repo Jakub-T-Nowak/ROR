@@ -38,7 +38,7 @@ export default class LifeCycle {
             this.gameStep()
         }
         else {
-            this.pauze()   
+            this.pause()   
         } 
     }
 
@@ -71,7 +71,7 @@ export default class LifeCycle {
         }
     }
 
-    pauze () {
+    pause () {
         this.checkForGameOver();
 
         if (this.gameOverFlag === true) {
