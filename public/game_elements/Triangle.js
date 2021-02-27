@@ -25,13 +25,17 @@ export default class Triangle extends Circle {
             this.x = 500;
             this.y = 500;
         }
-        else {
+        else  if (this.triangleNumber === 1) {
             this.x = 20;
             this.y = 500;
         }
+        else {
+            this.x = 500;
+            this.y = 180;
+        }
     }
 
-    newPos ({x, y, sX, sY}, points) {
+    newPos (_, {x, y, sX, sY}, points) {
         if (this.triangleNumber === 0) {
             this.newPosB(x, y) 
         }

@@ -1,3 +1,5 @@
+import Triangle from './Triangle.js';
+
 export default class LifeCycle {
     ctx             //type: Object ? DOM ?
     circle;         //type: Circle
@@ -53,11 +55,20 @@ export default class LifeCycle {
     gameStep () {
         this.ctx.clearRect(0, 0, 520, 520);  
         this.rect.forEach(rectangle => rectangle.draw())
-        this.circle.newPos(this.clickedKey._);
-        this.triangles.forEach(triangle => triangle.newPos(this.circle.getParams(), this.dotsAndPoints.getPoints()))
+        this.movingElements.forEach(element => element.newPos(
+            this.clickedKey._, this.circle.getParams(), this.dotsAndPoints.getPoints()
+        ))
         this.dotsAndPoints.drawDots(this.circle.getXY());
+        this.addThirdTriangle();
         this.movingElements.forEach(element => element.update())
         this._drawPointsAndLives(this.dotsAndPoints.getPoints(), this.lives);
+    }
+
+    addThirdTriangle () {
+        if (this.dotsAndPoints.getPoints() === 195 && this.triangles.length === 2) {
+            this.triangles[2] = new Triangle(20, 500, this.rect[0], this.rect);
+            this.movingElements.push(this.triangles[2]);
+        }
     }
 
     pauze () {
@@ -109,10 +120,17 @@ export default class LifeCycle {
         this.counterWhenLifeIsLost.restart();
         this.flagForEnter.activateNavigation();
         this.dotsAndPoints.initiate();
+        this.removeThirdTriangle();
         this.gameOverFlag = false;
         this.lives = 0;
     }
 
+    removeThirdTriangle () {
+        if (this.triangles.length === 3){
+            this.triangles.pop();
+            this.movingElements.pop();
+        }
+    }
 
     _lostLifeWindow() {
         var ctx = this.ctx;
