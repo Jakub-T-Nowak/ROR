@@ -1,4 +1,4 @@
-import Pac from "./Circle.js";
+import Circle from "./Circle.js";
 
 /*==============================================
 Class Game:
@@ -9,47 +9,38 @@ Class Game:
     5. New Direction (follow the Circle)
 ==============================================*/
 
-export default class Triangle extends Pac {
-    eyeX;
-    eyeY;
+export default class Triangle extends Circle {
+    static number = 0
+    triangleNumber;
     makeItLessBoring = 0;
-    spin = 1;
-    colors = ['blue', 'BlueViolet', 'Chartreuse', 'Crimson', 'Cyan', 'DarkOrange', 'Red', 'Yellow']
-    colorNumber = 0;
 
-    /* ======== 1. Animation ======== */
-    animation () {
-        var ctx = Pac.myGameArea;
+    constructor(x, y, gameBackground, rect) {
+        super(x, y, gameBackground, rect);
+        this.triangleNumber = Triangle.number
+        Triangle.number++
+    }
 
-        if (this.spin === 1) {
-            this.colorNumber = Math.floor(Math.random() * 8);
+    restartPosition () {
+        if (this.triangleNumber === 0) {
+            this.x = 500;
+            this.y = 500;
         }
+        else {
+            this.x = 20;
+            this.y = 500;
+        }
+    }
 
-        ctx.strokeStyle = this.colors[this.colorNumber];
-        ctx.lineWidth = 3;
-
-        ctx.rotate((Math.PI/180) * this.spin + (Math.PI/180) * 20);
-        ctx.beginPath();
-        ctx.moveTo(-14,8);
-        ctx.lineTo(0,-16);
-        ctx.lineTo(14,8);
-        ctx.lineTo(-14,8);
-        ctx.stroke();  
-        ctx.rotate(-((Math.PI/180) * this.spin + (Math.PI/180) * 20));
-
-        ctx.rotate(-((Math.PI/180) * this.spin - (Math.PI/180) * 10));
-        ctx.beginPath();
-        ctx.moveTo(-14,8);
-        ctx.lineTo(0,-16);
-        ctx.lineTo(14,8);
-        ctx.lineTo(-14,8);
-        ctx.stroke();  
-        ctx.rotate((Math.PI/180) * this.spin - (Math.PI/180) * 10);
-
-        this.spin= this.spin + 4;
-
-        if (this.spin === 357) {
-            this.spin = 1;
+    newPos ({x, y, sX, sY}, points) {
+        if (this.triangleNumber === 0) {
+            this.newPosB(x, y) 
+        }
+        else {
+            if (points < 110){
+                this.newPosR(x, y, sX, sY);
+            } else {
+                this.newPosB(x, y);
+            }    
         }
     }
 

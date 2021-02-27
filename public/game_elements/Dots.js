@@ -3,15 +3,15 @@ import ObjectC from "./ObjectC.js";
 export default class Dots  extends ObjectC {
     dots = [];
     dotsNumber;
-    points = 0;
+    points;
 
     constructor () {
         super();
-        this.makeDotsArray();
+        this.initiate();
     }
 
-    
-    makeDotsArray () {        
+    initiate () {
+        this.points = 0;     
         this.dots = [];
         for (var X = 20; X <= 500; X += 20){    
             this.dots.push([X, 20, 0]);
@@ -30,7 +30,11 @@ export default class Dots  extends ObjectC {
         this.dotsNumber = this.dots.length;
     }
 
-    drawDots (pacX, pacY) {
+    getPoints () {
+        return this.points;
+    }
+
+    drawDots ({x:pacX, y:pacY}) {
         //making new dots when all are gone
         if (this.dotsNumber === 0) {
             this.dotsNumber = this.dots.length;
