@@ -52,7 +52,7 @@ export default class Triangle extends Circle {
             var random1to10 = Math.floor(Math.random() * (-10) ) + 11;
             if (random1to10 < 7) {
                 this._newDirection (PacX, PacY);
-                if (random1to10 < 4) {
+                if (random1to10 < 3) {
                     this.speedX = this.speedX*2;
                     this.speedY = this.speedY*2;
                 }
@@ -79,9 +79,18 @@ export default class Triangle extends Circle {
                 if (pacSy ==  2) PacY += 80;
                 if (pacSy == -2) PacY -= 80;
             }
-            this._newDirection (PacX, PacY);
-            this.makeItLessBoring ++;
 
+            if (this.makeItLessBoring === 1 || this.makeItLessBoring === 3 || this.makeItLessBoring === 4 ||
+                this.makeItLessBoring === 5 || this.makeItLessBoring === 6){
+                    if (PacY < this.y) this.speedY = -2;
+                    if (PacY > this.y) this.speedY = 2;
+                }
+                else {
+                    if (PacX < this.x) this.speedX = -2;
+                    if (PacX > this.x) this.speedX = 2;
+                }
+
+            this.makeItLessBoring ++;
             if (this.makeItLessBoring > 7) this._randomDirection();
             if (this.makeItLessBoring === 10) this.makeItLessBoring = 0;
         }

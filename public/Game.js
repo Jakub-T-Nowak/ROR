@@ -64,6 +64,7 @@ export default class Game {
         this.circle = new Circle(20, 20, this.rect[0], this.rect);
         this.triangles[0] = new Triangle(500, 500, this.rect[0], this.rect);
         this.triangles[1] = new Triangle(20, 500, this.rect[0], this.rect);
+        this.triangles[2] = new Triangle(20, 500, this.rect[0], this.rect);//============
         this.movingElements = [this.circle, ...this.triangles]
         this.dots = new Dots();
 
