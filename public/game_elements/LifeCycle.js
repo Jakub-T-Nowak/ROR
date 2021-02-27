@@ -11,7 +11,7 @@ export default class LifeCycle {
     gameInterval
     counterWhenLifeIsLost; //type: Int
     flagForEnter;          //type: Int
-    gameOver = false
+    gameOverFlag = false
 
     constructor (ctx, circle, rect, triangles, dots, counterWhenLifeIsLost, flagForEnter, clickedKey) {
         this.ctx = ctx;
@@ -63,7 +63,7 @@ export default class LifeCycle {
     pauze () {
         this.checkForGameOver();
 
-        if (this.gameOver === true) {
+        if (this.gameOverFlag === true) {
             this.gameOver();
         }
         else {
@@ -73,7 +73,7 @@ export default class LifeCycle {
 
     checkForGameOver () {
         if (this.counterWhenLifeIsLost._ === 1) {
-            this.gameOver =  this.lives === 2 ? true : false;
+            this.gameOverFlag =  this.lives === 2 ? true : false;
         }
     }
 
@@ -109,7 +109,7 @@ export default class LifeCycle {
         this.counterWhenLifeIsLost.restart();
         this.flagForEnter.activateNavigation();
         this.dotsAndPoints.initiate();
-        this.gameOver = false;
+        this.gameOverFlag = false;
         this.lives = 0;
     }
 
