@@ -76,7 +76,6 @@ export default class LifeCycle {
     pause () {
         this.checkForGameOver();
         
-
         if (this.gameOverFlag === true) {
             this.gameOver();
         }

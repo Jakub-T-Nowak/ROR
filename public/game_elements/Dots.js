@@ -5,12 +5,6 @@ export default class Dots  extends ObjectC {
     roads = [20, 180, 340, 500];
     dotsNumber;
     points;
-    // dot = {
-    //     x: 0,
-    //     y: 0,
-    //     visible: false,
-    //     super: false
-    // }
 
     constructor () {
         super();
