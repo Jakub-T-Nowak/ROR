@@ -15,13 +15,12 @@ Class Game:
 
 export default class Game {
     rect = new Array;
-    clickedKey = {_:0};
     circle;
     dots;
     triangles = new Array;
     movingElements = new Array;
     context;
-
+    
     lifeCycle;
 
     counterWhenLifeIsLost = {
@@ -31,6 +30,7 @@ export default class Game {
         }
     };
     
+    clickedKey = {_:0};
     flagForEnter = {
         _:1,
         activateNavigation: function() {

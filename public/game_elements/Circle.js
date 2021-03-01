@@ -12,6 +12,7 @@ export default class Circle{
     y;
     gameBackground;
     rect;
+    turbo = 1;
     speedX = 0;
     speedY = 0;
     b = 0;
@@ -41,6 +42,16 @@ export default class Circle{
 
     getParams () {
         return {x: this.x, y: this.y, sX: this.speedX, sY: this.speedY}
+    }
+
+    superMode() {
+        this.turbo = 2;
+
+        setTimeout(
+            ()=>{
+                this.turbo =1
+            },5000)
+
     }
     
     /* ======== 3. Update - where to draw ======== */ 
@@ -122,7 +133,7 @@ export default class Circle{
         }
         this.speedXm1 = this.speedX;
 
-        this.x += this.speedX;
-        this.y += this.speedY;
+        this.x += this.speedX * this.turbo;
+        this.y += this.speedY * this.turbo;
     }
 }

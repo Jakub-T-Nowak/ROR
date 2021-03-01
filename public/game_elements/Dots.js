@@ -37,6 +37,8 @@ export default class Dots  extends ObjectC {
     }
 
     drawDots ({x:pacX, y:pacY}) {
+        let superDotEaten = false
+
         //making new dots when all are gone
         if (this.dotsNumber === 0) {
             this.dotsNumber = this.dots.length;
@@ -48,10 +50,10 @@ export default class Dots  extends ObjectC {
         //checking if the Circle is getting dot
         for (let i = 0; i < this.dots.length; i++) {
             if (this.dots[i][0] === pacX && this.dots[i][1] === pacY && this.dots[i][2] === true){
+                superDotEaten = this.dots[i][3]
                 this.dots[i][2] = false;
                 this.dotsNumber--;
-                const point = this.dots[i][3] === true ? 10 : 1
-                this.points = this.points + point
+                this.points += superDotEaten === true ? 10 : 1
             }
         }
 
@@ -66,5 +68,7 @@ export default class Dots  extends ObjectC {
                 ctx.fill();
             }
         }
+
+        return superDotEaten;
     }
 }
