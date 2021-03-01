@@ -10,4 +10,8 @@ export default class Dot {
         this.visible = false;
         this.super = false;
     }
+
+    setSuper (value) {
+        this.super = value;
+    }
 }
