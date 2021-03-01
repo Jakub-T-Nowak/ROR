@@ -48,6 +48,13 @@ export default class Triangle extends Circle {
         }
     }
 
+
+    superMode() {
+        this.turbo = 0;
+        setTimeout(()=>{this.turbo = 1},2000)
+    }
+
+
     /* ======== 2. New Position (Easy) ======== */
     newPosB (PacX, PacY) {
         if ((this.x === 20 || this.x === 180 || this.x === 340 || this.x === 500) && 
@@ -123,9 +130,9 @@ export default class Triangle extends Circle {
 
     /* ======== 5. New Direction (follow the Circle) ======== */
     _newDirection (PacX, PacY) {
-        if (PacY < this.y) this.speedY = -2;
-        if (PacY > this.y) this.speedY = 2;
-        if (PacX < this.x) this.speedX = -2;
-        if (PacX > this.x) this.speedX = 2;
+        if (PacY < this.y) this.speedY = -2 * this.turbo;
+        if (PacY > this.y) this.speedY = 2 * this.turbo;
+        if (PacX < this.x) this.speedX = -2 * this.turbo;
+        if (PacX > this.x) this.speedX = 2 * this.turbo;
     }   
 }

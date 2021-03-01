@@ -15,15 +15,17 @@ export default class Dots  extends ObjectC {
         this.points = 0;     
         this.dots = [];
         for (var X = 20; X <= 500; X += 20){
-            this.roads.forEach(road => this.dots.push([X, road, true, false]))
+            this.roads.forEach(road => this.dots.push([X, road, true, 0]))
             if (!(X === 20 || X === 180 || X === 340 || X === 500)) {
-                this.roads.forEach(road => this.dots.push([road, X, true, false]))
+                this.roads.forEach(road => this.dots.push([road, X, true, 0]))
             }
         }
         this.dotsNumber = this.dots.length;
 
         var random30to110 = Math.floor(Math.random() * (-30) ) + 111;
-        this.dots[random30to110][3] = true;
+        this.dots[random30to110][3] = 1;
+        var random30to110 = Math.floor(Math.random() * (-30) ) + 111;
+        this.dots[random30to110][3] = 2;
     }
 
     getPoints () {
@@ -54,9 +56,16 @@ export default class Dots  extends ObjectC {
         //drawing dots
         for (const dot of this.dots) {
             if (dot[2] === true) {
-                const size = dot[3] === true ? 6 : 2
+                
+                let size;
+                if (dot[3] === 0) size = 2
+                if (dot[3] === 1) size = 6
+                if (dot[3] === 2) size = 7
                 var ctx = Dots.myGameArea;
-                ctx.fillStyle = "white";    
+
+                if (dot[3] === 0 || dot[3] === 1) ctx.fillStyle = "white";    
+                if (dot[3] === 2) ctx.fillStyle = "red";  
+                
                 ctx.beginPath();
                 ctx.arc(dot[0],dot[1], size, 0, 2* Math.PI);
                 ctx.fill();

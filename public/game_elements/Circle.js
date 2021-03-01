@@ -46,12 +46,7 @@ export default class Circle{
 
     superMode() {
         this.turbo = 2;
-
-        setTimeout(
-            ()=>{
-                this.turbo =1
-            },5000)
-
+        setTimeout(()=>{this.turbo =1},5000)
     }
     
     /* ======== 3. Update - where to draw ======== */ 

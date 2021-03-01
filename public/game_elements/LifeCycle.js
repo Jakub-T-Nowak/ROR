@@ -63,7 +63,8 @@ export default class LifeCycle {
         this.movingElements.forEach(element => element.update())
         this._drawPointsAndLives(this.dotsAndPoints.getPoints(), this.lives);
 
-        if (superDotEaten) this.circle.superMode();
+        if (superDotEaten === 1) this.circle.superMode();
+        if (superDotEaten === 2) this.triangles.forEach(triangle => {triangle.superMode()});
     }
 
     addThirdTriangle () {
