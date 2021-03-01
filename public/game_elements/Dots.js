@@ -2,8 +2,15 @@ import ObjectC from "./ObjectC.js";
 
 export default class Dots  extends ObjectC {
     dots = [];
+    roads = [20, 180, 340, 500];
     dotsNumber;
     points;
+    // dot = {
+    //     x: 0,
+    //     y: 0,
+    //     visible: false,
+    //     super: false
+    // }
 
     constructor () {
         super();
@@ -13,21 +20,16 @@ export default class Dots  extends ObjectC {
     initiate () {
         this.points = 0;     
         this.dots = [];
-        for (var X = 20; X <= 500; X += 20){    
-            this.dots.push([X, 20, 0]);
-            this.dots.push([X, 180, 0]);
-            this.dots.push([X, 340, 0]);
-            this.dots.push([X, 500, 0]);
-        }
-        for (var Y = 20; Y <= 500; Y += 20){
-            if (!(Y === 20 || Y === 180 || Y === 340 || Y === 500)) {
-                this.dots.push([20, Y, 0]);
-                this.dots.push([180, Y, 0]);
-                this.dots.push([340, Y, 0]);
-                this.dots.push([500, Y, 0]);
+        for (var X = 20; X <= 500; X += 20){
+            this.roads.forEach(road => this.dots.push([X, road, true, false]))
+            if (!(X === 20 || X === 180 || X === 340 || X === 500)) {
+                this.roads.forEach(road => this.dots.push([road, X, true, false]))
             }
         }
         this.dotsNumber = this.dots.length;
+
+        var random30to110 = Math.floor(Math.random() * (-30) ) + 111;
+        this.dots[random30to110][3] = true;
     }
 
     getPoints () {
@@ -39,26 +41,28 @@ export default class Dots  extends ObjectC {
         if (this.dotsNumber === 0) {
             this.dotsNumber = this.dots.length;
             for (let i = 0; i < this.dots.length; i++) {
-                this.dots[i][2] = 0;
+                this.dots[i][2] = true;
             }
         }
 
         //checking if the Circle is getting dot
         for (let i = 0; i < this.dots.length; i++) {
-            if (this.dots[i][0] === pacX && this.dots[i][1] === pacY && this.dots[i][2] === 0){
-                this.dots[i][2] = 1;
+            if (this.dots[i][0] === pacX && this.dots[i][1] === pacY && this.dots[i][2] === true){
+                this.dots[i][2] = false;
                 this.dotsNumber--;
-                this.points++;
+                const point = this.dots[i][3] === true ? 10 : 1
+                this.points = this.points + point
             }
         }
 
         //drawing dots
         for (const dot of this.dots) {
-            if (dot[2] === 0) {
+            if (dot[2] === true) {
+                const size = dot[3] === true ? 6 : 2
                 var ctx = Dots.myGameArea;
                 ctx.fillStyle = "white";    
                 ctx.beginPath();
-                ctx.arc(dot[0],dot[1],2,0, 2* Math.PI);
+                ctx.arc(dot[0],dot[1], size, 0, 2* Math.PI);
                 ctx.fill();
             }
         }

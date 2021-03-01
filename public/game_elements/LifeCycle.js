@@ -132,6 +132,9 @@ export default class LifeCycle {
         }
     }
 
+
+    
+
     _lostLifeWindow() {
         var ctx = this.ctx;
         ctx.strokeStyle = "white";
