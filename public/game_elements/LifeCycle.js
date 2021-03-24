@@ -1,31 +1,37 @@
-import Triangle from './Triangle.js';
+import Triangle from './MovingElements/Triangle.js';
+import Board from './Board/Board.js';
+import Circle from './MovingElements/Circle.js';
+import Dots from './Dots.js';
 
 export default class LifeCycle {
     ctx             //type: Object ? DOM ?
     circle;         //type: Circle
     rect;           //type: [] Rectangle
-    triangles;      //type: [] Triangle
+    triangles = new Array; //type: [] Triangle
     dotsAndPoints;  //type: Dots
     clickedKey;     //type: Int
     movingElements; //type: [] Circle
     lives = 0;      //type: Int
 
-    gameInterval
+    gameInterval;
     counterWhenLifeIsLost; //type: Int
     flagForEnter;          //type: Int
-    gameOverFlag = false
+    gameOverFlag = false   //type: Boolean
 
-    constructor (ctx, circle, rect, triangles, dots, counterWhenLifeIsLost, flagForEnter, clickedKey) {
+    constructor (ctx, counterWhenLifeIsLost, flagForEnter, clickedKey) {
         this.ctx = ctx;
-        this.circle = circle;
-        this.rect = rect;
-        this.triangles = triangles;
-        this.dotsAndPoints = dots;
+        this.dotsAndPoints = new Dots();
         this.counterWhenLifeIsLost = counterWhenLifeIsLost;
         this.flagForEnter = flagForEnter;
         this.clickedKey = clickedKey;
-        this.movingElements = [this.circle, ...this.triangles];
+        this.rect = new Board();
+
+        this.circle = new Circle(20, 20, this.rect);
+        this.triangles[0] = new Triangle(500, 500, this.rect);
+        this.triangles[1] = new Triangle(20, 500, this.rect);
+        this.movingElements = [this.circle, ...this.triangles]
     }
+
 
     setGameInterval (gameInterval) {
         this.gameInterval = gameInterval;
@@ -69,7 +75,7 @@ export default class LifeCycle {
 
     addThirdTriangle () {
         if (this.dotsAndPoints.getPoints() === 195 && this.triangles.length === 2) {
-            this.triangles[2] = new Triangle(20, 500, this.rect[0], this.rect);
+            this.triangles[2] = new Triangle(20, 500, this.rect);
             this.movingElements.push(this.triangles[2]);
         }
     }

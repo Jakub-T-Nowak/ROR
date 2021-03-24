@@ -1,4 +1,4 @@
-import ObjectC from "./ObjectC.js";
+import ObjectC from "../ObjectC.js";
 
 export default class CircleDrawning extends ObjectC {
     x;

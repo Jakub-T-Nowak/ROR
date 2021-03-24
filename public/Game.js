@@ -1,26 +1,13 @@
-import RoundedRect from './game_elements/Rectangle.js';
-import Circle from './game_elements/Circle.js';
 import ObjectC from './game_elements/ObjectC.js';
-import Dots from './game_elements/Dots.js';
-import Triangle from './game_elements/Triangle.js';
 import LifeCycle from './game_elements/lifeCycle.js';
 
 /*============================
-Class Game:
+Class Game: 
     1. Constructor
-    2. Start Window
-    3. Update Game Area
-    4. Lost Life
 ============================*/
 
 export default class Game {
-    rect = new Array;
-    circle;
-    dots;
-    triangles = new Array;
-    movingElements = new Array;
     context;
-    
     lifeCycle;
 
     counterWhenLifeIsLost = {
@@ -31,6 +18,7 @@ export default class Game {
     };
     
     clickedKey = {_:0};
+
     flagForEnter = {
         _:1,
         activateNavigation: function() {
@@ -43,40 +31,8 @@ export default class Game {
         this.context = document.getElementById('stockGraph').getContext("2d");
 
         ObjectC.myGameArea = this.context;
-        const width = 120;
-        const height = 120;
-        this.rect = [
-            new RoundedRect(0, 0, 520, 520),
-
-            new RoundedRect(40, 40, width, height),
-            new RoundedRect(200, 40, width, height),
-            new RoundedRect(360, 40, width, height),
-
-            new RoundedRect(40, 200, width, height),
-            new RoundedRect(200, 200, width, height),
-            new RoundedRect(360, 200, width, height),
-
-            new RoundedRect(40, 360, width, height),
-            new RoundedRect(200, 360, width, height),
-            new RoundedRect(360, 360, width, height)
-        ];
-
-        this.circle = new Circle(20, 20, this.rect[0], this.rect);
-        this.triangles[0] = new Triangle(500, 500, this.rect[0], this.rect);
-        this.triangles[1] = new Triangle(20, 500, this.rect[0], this.rect);
-        this.movingElements = [this.circle, ...this.triangles]
-        this.dots = new Dots();
-
-        this.lifeCycle = new LifeCycle(
-            this.context,
-            this.circle,
-            this.rect,
-            this.triangles, 
-            this.dots, 
-            this.counterWhenLifeIsLost,
-            this.flagForEnter,
-            this.clickedKey,
-        );
+        
+        this.lifeCycle = new LifeCycle(this.context, this.counterWhenLifeIsLost, this.flagForEnter, this.clickedKey);
 
         const r = this;
         this.addListeners(r);

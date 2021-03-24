@@ -1,5 +1,5 @@
 import CircleDrawning from "./CircleDrawning.js";
-import TriangleDrawning from "./TriangleDrawning.js";
+
 /*============================
 Class Circle:
     Update
@@ -18,16 +18,12 @@ export default class Circle{
     b = 0;
 
     /* ======== 1. Constructor ======== */ 
-    constructor (x, y, gameBackground, rect) {
+    constructor (x, y, rect) {
         this.x = x;
         this.y = y;
-        this.gameBackground = gameBackground;
+        this.gameBackground = rect[0];
         this.rect = rect;
-        if (y === 20) {
-            this.drawning = new CircleDrawning(x, y);
-        } else {
-            this.drawning = new TriangleDrawning(x, y);
-        }
+        this.drawning = new CircleDrawning(x, y);
     }
 
     getX () {

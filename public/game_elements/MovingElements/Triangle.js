@@ -1,4 +1,5 @@
 import Circle from "./Circle.js";
+import TriangleDrawning from "./TriangleDrawning.js";
 
 /*==============================================
 Class Game:
@@ -14,8 +15,9 @@ export default class Triangle extends Circle {
     triangleNumber;
     makeItLessBoring = 0;
 
-    constructor(x, y, gameBackground, rect) {
-        super(x, y, gameBackground, rect);
+    constructor(x, y, rect) {
+        super(x, y, rect);
+        this.drawning = new TriangleDrawning(x, y);
         this.triangleNumber = Triangle.number
         Triangle.number++
     }
