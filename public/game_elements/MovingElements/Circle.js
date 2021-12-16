@@ -66,7 +66,6 @@ export default class Circle{
     }
 
 
-    //descripting speed from button value
     _encodingSpeed() {
         if (this.b == 1) {
             this.speedX = -2;
@@ -79,7 +78,6 @@ export default class Circle{
         }
     }
 
-    /* ======== 5. Collision Control ======== */
     _collisionControl () {
         //border
         if (this.x == this.gameBackground.x + 20 && this.speedX <= 0){
@@ -95,20 +93,15 @@ export default class Circle{
             this.speedY = 0;
         }
         //rectangles:
-        for (let k = 0; k < this.rect.length; k++) {
-            if (this.x == this.rect[k].x - 20 && (this.y > this.rect[k].y - 20 && this.y < this.rect[k].y + this.rect[k].height + 20) && this.speedX >= 0){
+        this.rect.forEach((_, k)=> {
+            if (this.r1_(k, 'x', 'y')) {
                 this.speedX = 0;
             }
-            if (this.x == this.rect[k].x + this.rect[k].width + 20 && (this.y > this.rect[k].y - 20 && this.y < this.rect[k].y + this.rect[k].height + 20) && this.speedX <= 0){
-                this.speedX = 0;
-            }
-            if (this.y == this.rect[k].y - 20 && (this.x > this.rect[k].x - 20 && this.x < this.rect[k].x + this.rect[k].width + 20) && this.speedY >= 0){
+
+            if (this.r1_(k, 'y', 'x')){
                 this.speedY = 0;
             }
-            if (this.y == this.rect[k].y + this.rect[k].height + 20 && (this.x > this.rect[k].x - 20 && this.x < this.rect[k].x + this.rect[k].width + 20) && this.speedY <= 0){
-                this.speedY = 0;
-            }
-        }
+        })
 
         //rules of changing direction on intersection
         if (0 < this.speedY && this.speedXm1 !== 0) {            
@@ -126,5 +119,31 @@ export default class Circle{
 
         this.x += this.speedX * this.turbo;
         this.y += this.speedY * this.turbo;
+    }
+
+    r1(k) {
+        const a = this.x == this.rect[k].x - 20;
+        const b = this.y > this.rect[k].y - 20;
+        const c = this.y < this.rect[k].y + this.rect[k].height + 20;
+        const d = this.speedX >= 0;
+
+        const e = this.x == this.rect[k].x + this.rect[k].width + 20
+        const f = this.y > this.rect[k].y - 20
+        const g = this.y < this.rect[k].y + this.rect[k].height + 20
+        const h = this.speedX <= 0
+        return (a && b && c && d) || (e && f && g && h)
+    }
+
+    r1_(k, a, b) {
+        const aa = this[a] == this.rect[k][a] - 20;
+        const bb = this[b] > this.rect[k][b] - 20;
+        const c = this[b] < this.rect[k][b] + this.rect[k].height + 20;
+        const d = this[`speed${a.toUpperCase()}`] >= 0;
+
+        const e = this[a] == this.rect[k][a] + this.rect[k].width + 20
+        const f = this[b] > this.rect[k][b] - 20
+        const g = this[b] < this.rect[k][b] + this.rect[k].height + 20
+        const h = this[`speed${a.toUpperCase()}`] <= 0
+        return (aa && bb && c && d) || (e && f && g && h)
     }
 }
