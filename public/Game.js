@@ -3,6 +3,7 @@ import LifeCycle from "./game_elements/lifeCycle.js";
 import welcomeWindow from "./welcomWindow.js";
 
 export default class Game {
+    context;
     lifeCycle;
     clickedKey = { _: 0 };
 
@@ -14,21 +15,10 @@ export default class Game {
     };
 
     constructor() {
-        const context = document.getElementById("stockGraph").getContext("2d");
+        this.context = document.getElementById("stockGraph").getContext("2d");
+        ObjectC.myGameArea = this.context;
+        welcomeWindow(this.context);
 
-        ObjectC.myGameArea = context;
-
-        this.lifeCycle = new LifeCycle(
-            context,
-            this.flagForEnter,
-            this.clickedKey
-        );
-
-        this.addListeners();
-        welcomeWindow(context);
-    }
-
-    addListeners() {
         const enterWhenStartingGame = (e) => {this.enterWhenStartingGame(e)};
         this.startButtons = enterWhenStartingGame;
         window.addEventListener("keydown", enterWhenStartingGame);
@@ -38,7 +28,12 @@ export default class Game {
         if (e.keyCode === 13) {
             window.removeEventListener("keydown", this.startButtons);
             window.addEventListener("keydown", (e) => { this.gameNavigation(e) });
-            this.lifeCycle.start();
+            
+            this.lifeCycle = new LifeCycle(
+                this.context,
+                this.flagForEnter,
+                this.clickedKey
+            );
         }
     }
 

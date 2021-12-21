@@ -10,8 +10,7 @@ Class Circle:
 export default class Circle{
     x;
     y;
-    gameBackground;
-    rect;
+    board;
     turbo = 1;
     speedX = 0;
     speedY = 0;
@@ -21,8 +20,8 @@ export default class Circle{
     constructor (x, y, rect) {
         this.x = x;
         this.y = y;
-        this.gameBackground = rect[0];
-        this.rect = rect;
+        this.board = rect;
+        this.gameBackground = rect.getBoard()[0];
         this.drawning = new CircleDrawning(x, y);
     }
 
@@ -65,7 +64,6 @@ export default class Circle{
         this.y = 20;
     }
 
-
     _encodingSpeed() {
         if (this.b == 1) {
             this.speedX = -2;
@@ -93,15 +91,8 @@ export default class Circle{
             this.speedY = 0;
         }
         //rectangles:
-        this.rect.forEach((_, k)=> {
-            if (this.r1_(k, 'x', 'y')) {
-                this.speedX = 0;
-            }
-
-            if (this.r1_(k, 'y', 'x')){
-                this.speedY = 0;
-            }
-        })
+        this.speedX = this.board.r1(this.x, this.y, this.speedX) ? 0 : this.speedX;
+        this.speedY = this.board.r1(this.y, this.x, this.speedY) ? 0 : this.speedY;
 
         //rules of changing direction on intersection
         if (0 < this.speedY && this.speedXm1 !== 0) {            
@@ -119,31 +110,5 @@ export default class Circle{
 
         this.x += this.speedX * this.turbo;
         this.y += this.speedY * this.turbo;
-    }
-
-    r1(k) {
-        const a = this.x == this.rect[k].x - 20;
-        const b = this.y > this.rect[k].y - 20;
-        const c = this.y < this.rect[k].y + this.rect[k].height + 20;
-        const d = this.speedX >= 0;
-
-        const e = this.x == this.rect[k].x + this.rect[k].width + 20
-        const f = this.y > this.rect[k].y - 20
-        const g = this.y < this.rect[k].y + this.rect[k].height + 20
-        const h = this.speedX <= 0
-        return (a && b && c && d) || (e && f && g && h)
-    }
-
-    r1_(k, a, b) {
-        const aa = this[a] == this.rect[k][a] - 20;
-        const bb = this[b] > this.rect[k][b] - 20;
-        const c = this[b] < this.rect[k][b] + this.rect[k].height + 20;
-        const d = this[`speed${a.toUpperCase()}`] >= 0;
-
-        const e = this[a] == this.rect[k][a] + this.rect[k].width + 20
-        const f = this[b] > this.rect[k][b] - 20
-        const g = this[b] < this.rect[k][b] + this.rect[k].height + 20
-        const h = this[`speed${a.toUpperCase()}`] <= 0
-        return (aa && bb && c && d) || (e && f && g && h)
     }
 }

@@ -36,35 +36,25 @@ export default class LifeCycle {
         this.triangles[0] = new Triangle(500, 500, this.rect);
         this.triangles[1] = new Triangle(20, 500, this.rect);
         this.movingElements = [this.circle, ...this.triangles];
-    }
-
-    start() {
         this.gameInterval = setInterval(() => {this.updateGameArea()}, 20);
     }
 
     updateGameArea() {
-        this.checkIfLifeIsLost();
-
-        if (this.counterWhenLifeIsLost._ === 0) {
-            this.gameStep();
-        } else {
-            this.pause();
-        }
+        this.checkIfLifeIsLost() && this.counterWhenLifeIsLost._++;
+        (this.counterWhenLifeIsLost._ === 0) ? this.gameStep() : this.pause();
     }
 
     checkIfLifeIsLost() {
-        const check = this.triangles.some((triangle) => {
+        return this.triangles.some((triangle) => {
             const Dx = Math.abs(this.circle.getX() - triangle.getX());
             const Dy = Math.abs(this.circle.getY() - triangle.getY());
             return Dx < 20 && Dy < 20 ? true : false;
         });
-
-        if (check) this.counterWhenLifeIsLost._++;
     }
 
     gameStep() {
         this.ctx.clearRect(0, 0, 520, 520);
-        this.rect.forEach((rectangle) => rectangle.draw());
+        this.rect.drawBoard();
         this.movingElements.forEach((element) =>
             element.newPos(
                 this.clickedKey._,
@@ -96,12 +86,7 @@ export default class LifeCycle {
 
     pause() {
         this.checkForGameOver();
-
-        if (this.gameOverFlag === true) {
-            this.gameOver();
-        } else {
-            this.lostLife();
-        }
+        this.gameOverFlag ? this.gameOver() : this.lostLife();
     }
 
     checkForGameOver() {
