@@ -36,12 +36,14 @@ export default class LifeCycle {
         this.triangles[0] = new Triangle(500, 500, this.rect);
         this.triangles[1] = new Triangle(20, 500, this.rect);
         this.movingElements = [this.circle, ...this.triangles];
-        this.gameInterval = setInterval(() => {this.updateGameArea()}, 20);
+        this.gameInterval = setInterval(() => {
+            this.updateGameArea();
+        }, 20);
     }
 
     updateGameArea() {
         this.checkIfLifeIsLost() && this.counterWhenLifeIsLost._++;
-        (this.counterWhenLifeIsLost._ === 0) ? this.gameStep() : this.pause();
+        this.counterWhenLifeIsLost._ === 0 ? this.gameStep() : this.pause();
     }
 
     checkIfLifeIsLost() {
@@ -59,8 +61,8 @@ export default class LifeCycle {
             element.newPos(
                 this.clickedKey._,
                 this.circle.getParams(),
-                this.dotsAndPoints.getPoints()
-            )
+                this.dotsAndPoints.getPoints(),
+            ),
         );
         const superDotEaten = this.dotsAndPoints.drawDots(this.circle.getXY());
         this.addThirdTriangle();
@@ -102,7 +104,7 @@ export default class LifeCycle {
             this._lostLifeWindow();
             this._drawPointsAndLives(
                 this.dotsAndPoints.getPoints(),
-                this.lives
+                this.lives,
             );
             clearInterval(this.gameInterval);
             setTimeout(() => {

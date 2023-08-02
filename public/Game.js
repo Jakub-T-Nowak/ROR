@@ -19,7 +19,9 @@ export default class Game {
         ObjectC.myGameArea = this.context;
         welcomeWindow(this.context);
 
-        const enterWhenStartingGame = (e) => {this.enterWhenStartingGame(e)};
+        const enterWhenStartingGame = (e) => {
+            this.enterWhenStartingGame(e);
+        };
         this.startButtons = enterWhenStartingGame;
         window.addEventListener("keydown", enterWhenStartingGame);
     }
@@ -27,12 +29,14 @@ export default class Game {
     enterWhenStartingGame(e) {
         if (e.keyCode === 13) {
             window.removeEventListener("keydown", this.startButtons);
-            window.addEventListener("keydown", (e) => { this.gameNavigation(e) });
-            
+            window.addEventListener("keydown", (e) => {
+                this.gameNavigation(e);
+            });
+
             this.lifeCycle = new LifeCycle(
                 this.context,
                 this.flagForEnter,
-                this.clickedKey
+                this.clickedKey,
             );
         }
     }

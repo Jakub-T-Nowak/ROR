@@ -17,11 +17,11 @@ export default class Dots extends ObjectC {
         this.dots = [];
         for (var X = 20; X <= 500; X += 20) {
             this.roads.forEach((road) =>
-                this.dots.push(new Dot(X, road, true, 0))
+                this.dots.push(new Dot(X, road, true, 0)),
             );
             if (!(X === 20 || X === 180 || X === 340 || X === 500)) {
                 this.roads.forEach((road) =>
-                    this.dots.push(new Dot(road, X, true, 0))
+                    this.dots.push(new Dot(road, X, true, 0)),
                 );
             }
         }
@@ -47,14 +47,14 @@ export default class Dots extends ObjectC {
 
         if (this.dotsNumber === 0) this.makeNewDots();
 
-        this.dots.forEach((dot)=>{
+        this.dots.forEach((dot) => {
             if (dot.checkForContact(pacX, pacY)) {
                 superDotEaten = dot.super;
                 this.dotsNumber--;
                 this.points += superDotEaten ? 10 : 1;
             }
-            dot.drawDot(Dots.myGameArea)
-        })
+            dot.drawDot(Dots.myGameArea);
+        });
 
         return superDotEaten;
     }

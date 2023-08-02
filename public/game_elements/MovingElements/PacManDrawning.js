@@ -32,7 +32,6 @@ export default class PacManDrawning extends ObjectC {
     }
 
     _getDirectionCorrection() {
-
         switch (this.direction) {
             case DIRECTION.stop:
                 return this.prev;
@@ -41,9 +40,9 @@ export default class PacManDrawning extends ObjectC {
             case DIRECTION.left:
                 return PI;
             case DIRECTION.up:
-                return -0.5*PI;
+                return -0.5 * PI;
             case DIRECTION.down:
-                return 0.5*PI;
+                return 0.5 * PI;
         }
     }
 

@@ -1,2 +1,2 @@
-import Game from './Game.js';
+import Game from "./Game.js";
 new Game();

@@ -28,7 +28,7 @@ export default class LifeCycle {
     }
 
     drawBoard() {
-        this.board.forEach(rect=>rect.draw());
+        this.board.forEach((rect) => rect.draw());
     }
 
     r1(xP, yP, speed) {
@@ -71,10 +71,10 @@ export default class LifeCycle {
         const c = this[b] < rect[b] + rect.height + 20;
         const d = this[`speed${a.toUpperCase()}`] >= 0;
 
-        const e = this[a] == rect[a] + rect.width + 20
-        const f = this[b] > rect[b] - 20
-        const g = this[b] < rect[b] + rect.height + 20
-        const h = this[`speed${a.toUpperCase()}`] <= 0
-        return (aa && bb && c && d) || (e && f && g && h)
+        const e = this[a] == rect[a] + rect.width + 20;
+        const f = this[b] > rect[b] - 20;
+        const g = this[b] < rect[b] + rect.height + 20;
+        const h = this[`speed${a.toUpperCase()}`] <= 0;
+        return (aa && bb && c && d) || (e && f && g && h);
     }
 }
