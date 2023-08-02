@@ -5,6 +5,6 @@ ROR is a game written in JavaScript and HTML Canvas.
 
 
 ## how to run
-npm install
-npm run start
+npm install <br />
+npm run start <br />
 go to localhost:3000
