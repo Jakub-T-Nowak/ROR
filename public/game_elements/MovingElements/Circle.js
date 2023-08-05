@@ -99,10 +99,10 @@ export default class Circle {
             this.speedY = 0;
         }
         //rectangles:
-        this.speedX = this.board.r1(this.x, this.y, this.speedX)
+        this.speedX = this.board.collisionControl(this.x, this.y, this.speedX)
             ? 0
             : this.speedX;
-        this.speedY = this.board.r1(this.y, this.x, this.speedY)
+        this.speedY = this.board.collisionControl(this.y, this.x, this.speedY)
             ? 0
             : this.speedY;
 

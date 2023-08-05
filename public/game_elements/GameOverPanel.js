@@ -1,14 +1,13 @@
 import LifeCycle from "./lifeCycle.js";
 
-export default function gameOverWindow(context, k) {
+export default function gameOverPanel(ctx, k) {
     k.rules = {
         Enter: () => {
-            const lifeCycle = new LifeCycle(context, k);
+            const lifeCycle = new LifeCycle(ctx, k);
             lifeCycle.startGame();
         },
     };
 
-    var ctx = context;
     ctx.strokeStyle = "white";
     ctx.clearRect(140, 20, 240, 480); //(x,y,L,H)
     ctx.beginPath();
