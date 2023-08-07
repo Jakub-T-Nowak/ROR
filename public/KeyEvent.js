@@ -12,10 +12,10 @@ export default class KeyEvent {
     }
 
     #keys(keyCode) {
-        this.#check(this.#navigationRules[keyCode])
+        this.#check(this.#navigationRules[keyCode]);
     }
 
-    #check (keyFunction) {
+    #check(keyFunction) {
         if (keyFunction) {
             keyFunction();
         }

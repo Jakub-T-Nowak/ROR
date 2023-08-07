@@ -1,5 +1,5 @@
-import LifeCycle from "./lifeCycle.js";
-import contextService from "../ContextService.js";
+import LifeCycle from "./LifeCycle.js";
+import contextService from "services/ContextService.js";
 
 export default function gameOverPanel(k) {
     const ctx = contextService.getContext();

@@ -1,6 +1,6 @@
-import LifeCycle from "./game_elements/lifeCycle.js";
+import LifeCycle from "./game_elements/LifeCycle.js";
 import KeyEvent from "./KeyEvent.js";
-import contextService from "./ContextService.js";
+import contextService from "services/ContextService.js";
 
 export default function welcomeWindow() {
     const ctx = contextService.getContext();

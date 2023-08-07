@@ -4,7 +4,7 @@ import Circle from "./MovingElements/Circle.js";
 import Dots from "./Dots.js";
 import gameOverPanel from "./GameOverPanel.js";
 import lostLifePanel from "./LostLifePanel.js";
-import contextService from "../ContextService.js";
+import contextService from "services/ContextService.js";
 
 const thirdTrianglePoints = 195;
 

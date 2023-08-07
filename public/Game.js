@@ -1,5 +1,5 @@
 import welcomeWindow from "./WelcomWindow.js";
-import contextService from "./ContextService.js";
+import contextService from "services/ContextService.js";
 
 export default class Game {
     get #context() {

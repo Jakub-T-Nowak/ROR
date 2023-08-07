@@ -1,4 +1,4 @@
-import contextService from "../../ContextService.js";
+import contextService from "services/ContextService.js";
 
 export default class RoundedRect {
     static radius = 3;

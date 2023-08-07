@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<style>
-		canvas {
-		background-color: #111111;
-		}
-	</style>
-</head>
-<body style="background-color: black;">
+	<head>
+		<style>
+			canvas {
+			background-color: #111111;
+			}
+		</style>
+	</head>
+	<body style="background-color: black;">
 
-<canvas id="gameCanvasElement" width="520" height="520">
-<script type="module" src="./public/JS.js"></script>
+	<canvas id="gameCanvasElement" width="520" height="520">
 
-</body>
+	<script type="importmap">
+		{"imports": {"services/": "./public/services/"}}
+	</script>
+
+	<script type="module" src="./public/JS.js"></script>
+
+	</body>
 </html>
