@@ -1,6 +1,6 @@
-import ObjectC from "../ObjectC.js";
+import contextService from "../../ContextService.js";
 
-export default class TriangleDrawning extends ObjectC {
+export default class TriangleDrawning {
     x;
     y;
     spin = 1;
@@ -16,18 +16,22 @@ export default class TriangleDrawning extends ObjectC {
     ];
     colorNumber = 0;
 
+    get #context() {
+        return contextService;
+    }
+
     /* ======== 1. Constructor ======== */
     constructor(x, y) {
-        super();
         this.x = x;
         this.y = y;
     }
 
     /* ======== 1. Animation ======== */
     update(x, y) {
+        const ctx = this.#context.getContext();
         this.x = x;
         this.y = y;
-        var ctx = TriangleDrawning.myGameArea;
+
         if (this.spin === 1) {
             this.colorNumber = Math.floor(Math.random() * 8);
         }

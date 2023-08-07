@@ -1,9 +1,11 @@
 import LifeCycle from "./lifeCycle.js";
+import contextService from "../ContextService.js";
 
-export default function gameOverPanel(ctx, k) {
+export default function gameOverPanel(k) {
+    const ctx = contextService.getContext();
     k.rules = {
         Enter: () => {
-            const lifeCycle = new LifeCycle(ctx, k);
+            const lifeCycle = new LifeCycle(k);
             lifeCycle.startGame();
         },
     };

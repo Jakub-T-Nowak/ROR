@@ -1,8 +1,14 @@
+import contextService from "../ContextService.js";
+
 export default class Dot {
     x; //type: Int
     y; //type: Int
     visible; // type: Boolean
     super; // type: Boolean
+
+    get #context() {
+        return contextService;
+    }
 
     constructor(x, y, a, b) {
         this.x = x;
@@ -27,13 +33,14 @@ export default class Dot {
         this.visible = true;
     }
 
-    drawDot(ctx_) {
+    drawDot() {
+        const ctx = this.#context.getContext();
+
         if (this.visible === true) {
             let size;
             if (this.super === 0) size = 2;
             if (this.super === 1) size = 6;
             if (this.super === 2) size = 7;
-            var ctx = ctx_;
 
             if (this.super === 0 || this.super === 1) ctx.fillStyle = "white";
             if (this.super === 2) ctx.fillStyle = "red";

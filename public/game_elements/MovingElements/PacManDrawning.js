@@ -1,4 +1,4 @@
-import ObjectC from "../ObjectC.js";
+import contextService from "../../ContextService.js";
 
 const PI = Math.PI;
 
@@ -10,12 +10,15 @@ const DIRECTION = {
     down: "DOWN",
 };
 
-export default class PacManDrawning extends ObjectC {
-    ctx = PacManDrawning.myGameArea;
+export default class PacManDrawning {
     direction = DIRECTION.stop;
     prev = 0;
     i = 0.1;
     flag = 0;
+
+    get #context() {
+        return contextService;
+    }
 
     _getDirection(speedX, speedY) {
         if (speedY == 0 && speedX == 0) {
@@ -65,6 +68,7 @@ export default class PacManDrawning extends ObjectC {
 
     /* ======== 2. Animation - what to draw ======== */
     _animation() {
+        const ctx = this.#context.getContext();
         const directionCorrection = this._getDirectionCorrection();
         this.prev = directionCorrection;
         const openingCorrection = this._getOpeningCorrection();
@@ -73,17 +77,18 @@ export default class PacManDrawning extends ObjectC {
         const endAngle = 1.75 * PI + directionCorrection + openingCorrection;
 
         //draw
-        this.ctx.beginPath();
-        this.ctx.arc(0, 0, 19, startAngle, endAngle);
-        this.ctx.lineTo(0, 0);
-        this.ctx.fill();
+        ctx.beginPath();
+        ctx.arc(0, 0, 19, startAngle, endAngle);
+        ctx.lineTo(0, 0);
+        ctx.fill();
     }
 
     /* ======== 3. Update - where to draw ======== */
     update(x, y, speedX, speedY) {
+        const ctx = this.#context.getContext();
         this.direction = this._getDirection(speedX, speedY);
-        this.ctx.translate(x, y);
+        ctx.translate(x, y);
         this._animation();
-        this.ctx.translate(-x, -y);
+        ctx.translate(-x, -y);
     }
 }

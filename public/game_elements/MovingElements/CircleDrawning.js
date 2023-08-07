@@ -1,6 +1,6 @@
-import ObjectC from "../ObjectC.js";
+import contextService from "../../ContextService.js";
 
-export default class CircleDrawning extends ObjectC {
+export default class CircleDrawning {
     x;
     y;
     speedX = 0;
@@ -10,15 +10,18 @@ export default class CircleDrawning extends ObjectC {
     i = 100;
     flag = 0;
 
+    get #context() {
+        return contextService;
+    }
+
     /* ======== 1. Constructor ======== */
     constructor(x, y) {
-        super();
         this.x = x;
         this.y = y;
     }
 
     //depending on direction of the Circle center of the Circle is changing its position
-    _circleCenterPosition() {
+    #circleCenterPosition() {
         const position = { x: 0, y: 0 };
 
         if (this.speedY == 0 && this.speedX == 0) {
@@ -42,18 +45,19 @@ export default class CircleDrawning extends ObjectC {
     }
 
     //changing shades of gray
-    _setGreyShade() {
+    #setGreyShade() {
         this.i += this.flag;
         this.i === 252 && (this.flag = -4);
         this.i === 100 && (this.flag = 4);
     }
 
     /* ======== 2. Animation- what to draw ======== */
-    _animation() {
-        const position = this._circleCenterPosition();
-        this._setGreyShade();
+    #animation() {
+        const ctx = this.#context.getContext();
+        const position = this.#circleCenterPosition();
+        this.#setGreyShade();
         //create canvas gradient
-        var gradient = this.ctx.createRadialGradient(
+        const gradient = ctx.createRadialGradient(
             position.x,
             position.y,
             0,
@@ -64,21 +68,22 @@ export default class CircleDrawning extends ObjectC {
         gradient.addColorStop(0, "white");
         gradient.addColorStop(0.1, `rgb(${this.i},${this.i},${this.i})`);
         gradient.addColorStop(1, "rgb(100, 100, 100)");
-        this.ctx.fillStyle = gradient;
+        ctx.fillStyle = gradient;
         //draw
-        this.ctx.beginPath();
-        this.ctx.arc(0, 0, 19, 0, Math.PI * 2);
-        this.ctx.fill();
+        ctx.beginPath();
+        ctx.arc(0, 0, 19, 0, Math.PI * 2);
+        ctx.fill();
     }
 
     /* ======== 3. Update - where to draw ======== */
     update(x, y, speedX, speedY) {
+        const ctx = this.#context.getContext();
         this.x = x;
         this.y = y;
         this.speedX = speedX;
         this.speedY = speedY;
-        this.ctx.translate(this.x, this.y);
-        this._animation();
-        this.ctx.translate(-this.x, -this.y);
+        ctx.translate(this.x, this.y);
+        this.#animation();
+        ctx.translate(-this.x, -this.y);
     }
 }

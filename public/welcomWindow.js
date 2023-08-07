@@ -1,15 +1,16 @@
 import LifeCycle from "./game_elements/lifeCycle.js";
 import KeyEvent from "./KeyEvent.js";
+import contextService from "./ContextService.js";
 
-export default function welcomeWindow(context) {
+export default function welcomeWindow() {
+    const ctx = contextService.getContext();
     const k = new KeyEvent();
     k.rules = {
         Enter: () => {
-            const lifeCycle = new LifeCycle(context, k);
+            const lifeCycle = new LifeCycle(k);
             lifeCycle.startGame();
         },
     };
-    const ctx = context;
 
     ctx.fillStyle = "white";
     ctx.font = "60px Arial";

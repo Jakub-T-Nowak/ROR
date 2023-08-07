@@ -1,14 +1,12 @@
-import ObjectC from "./ObjectC.js";
 import Dot from "./Dot.js";
 
-export default class Dots extends ObjectC {
+export default class Dots {
     dots = [];
     roads = [20, 180, 340, 500];
     dotsNumber;
     points;
 
     constructor() {
-        super();
         this.initiate();
     }
 
@@ -53,7 +51,7 @@ export default class Dots extends ObjectC {
                 this.dotsNumber--;
                 this.points += superDotEaten ? 10 : 1;
             }
-            dot.drawDot(Dots.myGameArea);
+            dot.drawDot();
         });
 
         return superDotEaten;

@@ -1,10 +1,13 @@
-import ObjectC from "../ObjectC.js";
+import contextService from "../../ContextService.js";
 
-export default class RoundedRect extends ObjectC {
+export default class RoundedRect {
     static radius = 3;
 
+    get #context() {
+        return contextService;
+    }
+
     constructor(x, y, width, height) {
-        super();
         this.x = x;
         this.y = y;
         this.width = width;
@@ -12,46 +15,46 @@ export default class RoundedRect extends ObjectC {
     }
 
     draw() {
-        var rect = RoundedRect.myGameArea;
-        rect.strokeStyle = "white";
-        rect.lineWidth = 2;
-        rect.beginPath();
-        rect.moveTo(this.x, this.y + RoundedRect.radius);
-        rect.lineTo(this.x, this.y + this.height - RoundedRect.radius);
-        rect.arcTo(
+        const ctx = this.#context.getContext();
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y + RoundedRect.radius);
+        ctx.lineTo(this.x, this.y + this.height - RoundedRect.radius);
+        ctx.arcTo(
             this.x,
             this.y + this.height,
             this.x + RoundedRect.radius,
             this.y + this.height,
             RoundedRect.radius,
         );
-        rect.lineTo(
+        ctx.lineTo(
             this.x + this.width - RoundedRect.radius,
             this.y + this.height,
         );
-        rect.arcTo(
+        ctx.arcTo(
             this.x + this.width,
             this.y + this.height,
             this.x + this.width,
             this.y + this.height - RoundedRect.radius,
             RoundedRect.radius,
         );
-        rect.lineTo(this.x + this.width, this.y + RoundedRect.radius);
-        rect.arcTo(
+        ctx.lineTo(this.x + this.width, this.y + RoundedRect.radius);
+        ctx.arcTo(
             this.x + this.width,
             this.y,
             this.x + this.width - RoundedRect.radius,
             this.y,
             RoundedRect.radius,
         );
-        rect.lineTo(this.x + RoundedRect.radius, this.y);
-        rect.arcTo(
+        ctx.lineTo(this.x + RoundedRect.radius, this.y);
+        ctx.arcTo(
             this.x,
             this.y,
             this.x,
             this.y + RoundedRect.radius,
             RoundedRect.radius,
         );
-        rect.stroke();
+        ctx.stroke();
     }
 }

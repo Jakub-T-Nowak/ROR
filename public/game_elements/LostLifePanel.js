@@ -1,4 +1,7 @@
-export default function lostLifePanel(ctx) {
+import contextService from "../ContextService.js";
+
+export default function lostLifePanel() {
+    const ctx = contextService.getContext();
     ctx.strokeStyle = "white";
     ctx.clearRect(150, 180, 220, 160); //(x,y,L,H)
     ctx.beginPath();

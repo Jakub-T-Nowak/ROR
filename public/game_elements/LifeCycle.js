@@ -4,6 +4,7 @@ import Circle from "./MovingElements/Circle.js";
 import Dots from "./Dots.js";
 import gameOverPanel from "./GameOverPanel.js";
 import lostLifePanel from "./LostLifePanel.js";
+import contextService from "../ContextService.js";
 
 const thirdTrianglePoints = 195;
 
@@ -33,8 +34,12 @@ export default class LifeCycle {
         },
     };
 
-    constructor(ctx, k) {
-        this.ctx = ctx;
+    get #context() {
+        return contextService;
+    }
+
+    constructor(k) {
+        this.ctx = this.#context.getContext();
         this.k = k;
         this.dotsAndPoints = new Dots();
         this.rect = new Board();
@@ -96,7 +101,7 @@ export default class LifeCycle {
         clearInterval(this.gameInterval);
 
         if (this.lives === 3) {
-            gameOverPanel(this.ctx, this.k);
+            gameOverPanel(this.k);
         } else {
             this.lostLife();
         }
@@ -116,7 +121,7 @@ export default class LifeCycle {
 
     lostLife() {
         this.movingElements.forEach((element) => element.restartPosition());
-        lostLifePanel(this.ctx);
+        lostLifePanel();
         setTimeout(() => {
             this.gameInterval = setInterval(() => {
                 this.updateGameArea();
