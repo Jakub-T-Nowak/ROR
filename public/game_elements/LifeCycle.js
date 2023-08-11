@@ -4,12 +4,11 @@ import Circle from "./MovingElements/Circle.js";
 import Dots from "./Dots.js";
 import gameOverPanel from "./GameOverPanel.js";
 import lostLifePanel from "./LostLifePanel.js";
-import contextService from "services/ContextService.js";
+import drawPointsAndLives from "./DrawPointsAndLives.js";
 
 const thirdTrianglePoints = 195;
 
 export default class LifeCycle {
-    ctx; //type: Object ? DOM ?
     circle; //type: Circle
     rect; //type: [] Rectangle
     triangles = []; //type: [] Triangle
@@ -34,12 +33,7 @@ export default class LifeCycle {
         },
     };
 
-    get #context() {
-        return contextService;
-    }
-
     constructor(k) {
-        this.ctx = this.#context.getContext();
         this.k = k;
         this.dotsAndPoints = new Dots();
         this.rect = new Board();
@@ -75,7 +69,6 @@ export default class LifeCycle {
     }
 
     gameStep() {
-        this.ctx.clearRect(0, 0, 520, 520);
         this.rect.drawBoard();
         this.movingElements.forEach((element) =>
             element.newPos(
@@ -87,7 +80,7 @@ export default class LifeCycle {
         const superDotEaten = this.dotsAndPoints.drawDots(this.circle.getXY());
         this.addThirdTriangle();
         this.movingElements.forEach((element) => element.update());
-        this._drawPointsAndLives(this.dotsAndPoints.getPoints(), this.lives);
+        drawPointsAndLives(this.dotsAndPoints.getPoints(), this.lives);
 
         if (superDotEaten === 1) this.circle.superMode();
         if (superDotEaten === 2)
@@ -106,7 +99,7 @@ export default class LifeCycle {
             this.lostLife();
         }
 
-        this._drawPointsAndLives(this.dotsAndPoints.getPoints(), this.lives);
+        drawPointsAndLives(this.dotsAndPoints.getPoints(), this.lives);
     }
 
     addThirdTriangle() {
@@ -128,30 +121,5 @@ export default class LifeCycle {
             }, 20);
             this.clickedKey = 0;
         }, 2000);
-    }
-
-    _drawPointsAndLives(points, lives) {
-        const ctx = this.ctx;
-        ctx.clearRect(205, 42, 110, 115);
-
-        //points
-        ctx.font = "18px Arial";
-        ctx.fillStyle = "white";
-        ctx.fillText("points: " + points + "0", 210, 144);
-
-        //lives
-        ctx.fillStyle = "white";
-        ctx.font = "25px Arial";
-
-        if (lives === 1) {
-            ctx.fillText("4", 232, 70);
-        } else if (lives === 2) {
-            ctx.fillText("4", 232, 70);
-            ctx.fillText("0", 252, 70);
-        } else if (lives === 3) {
-            ctx.fillText("4", 232, 70);
-            ctx.fillText("0", 252, 70);
-            ctx.fillText("4", 272, 70);
-        }
     }
 }

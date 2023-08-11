@@ -1,7 +1,12 @@
 import RoundedRect from "./Rectangle.js";
+import contextService from "services/ContextService.js";
 
 export default class Board {
     board;
+
+    get #context() {
+        return contextService;
+    }
 
     constructor() {
         const width = 120;
@@ -28,6 +33,8 @@ export default class Board {
     }
 
     drawBoard() {
+        const ctx = this.#context.getContext();
+        ctx.clearRect(0, 0, 520, 520);
         this.board.forEach((rect) => rect.draw());
     }
 
