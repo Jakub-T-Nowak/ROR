@@ -1,31 +1,31 @@
+//0,0_________ X
+//  |         5,0
+//  |
+//  |
+//  |0,5      5,5
+//  Y
+
 import RoundedRect from "./Rectangle.js";
 import contextService from "services/ContextService.js";
+import { rectanglesCoordinates } from "../Coordinates.js";
 
 export default class Board {
-    board;
+    board = [];
+    coordinates = [];
 
     get #context() {
         return contextService;
     }
 
     constructor() {
-        const width = 120;
-        const height = 120;
-        this.board = [
-            new RoundedRect(0, 0, 520, 520),
+        this.#createBoard();
+    }
 
-            new RoundedRect(40, 40, width, height),
-            new RoundedRect(200, 40, width, height),
-            new RoundedRect(360, 40, width, height),
-
-            new RoundedRect(40, 200, width, height),
-            new RoundedRect(200, 200, width, height),
-            new RoundedRect(360, 200, width, height),
-
-            new RoundedRect(40, 360, width, height),
-            new RoundedRect(200, 360, width, height),
-            new RoundedRect(360, 360, width, height),
-        ];
+    #createBoard() {
+        this.coordinates = rectanglesCoordinates();
+        this.coordinates.forEach((c) => {
+            this.board.push(new RoundedRect(c));
+        });
     }
 
     getBoard() {
@@ -34,19 +34,21 @@ export default class Board {
 
     drawBoard() {
         const ctx = this.#context.getContext();
-        ctx.clearRect(0, 0, 520, 520);
+        // 0 is a board rectangle
+        const { x, y, width, height } = this.coordinates[0];
+        ctx.clearRect(x, y, width, height);
         this.board.forEach((rect) => rect.draw());
     }
 
     collisionControl(xP, yP, speed) {
-        const z = 20;
+        const pathWidth = 20;
         return this.board.some((rect) => {
-            const a = xP == rect.y - z;
-            const b = yP > rect.x - z;
-            const c = yP < rect.x + rect.height + z;
+            const a = xP == rect.y - pathWidth;
+            const b = yP > rect.x - pathWidth;
+            const c = yP < rect.x + rect.height + pathWidth;
             const d = speed > 0;
 
-            const e = xP == rect.y + rect.width + z;
+            const e = xP == rect.y + rect.width + pathWidth;
 
             return (a && b && c && d) || (e && b && c && !d);
         });

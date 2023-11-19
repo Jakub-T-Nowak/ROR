@@ -4,17 +4,17 @@ export default class Dot {
     x; //type: Int
     y; //type: Int
     visible; // type: Boolean
-    super; // type: Boolean
+    super; // type: Int
 
     get #context() {
         return contextService;
     }
 
-    constructor(x, y, a, b) {
+    constructor({x, y}) {
         this.x = x;
         this.y = y;
-        this.visible = a;
-        this.super = b;
+        this.visible = true;
+        this.super = 0;
     }
 
     setSuper(value) {

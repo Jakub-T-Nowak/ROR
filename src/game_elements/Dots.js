@@ -1,34 +1,38 @@
+//0,0_________ X
+//  |         5,0
+//  |
+//  |
+//  |0,5      5,5
+//  Y
+
 import Dot from "./Dot.js";
+import { dotsCoordinates } from "./Coordinates.js"
 
 export default class Dots {
     dots = [];
-    roads = [20, 180, 340, 500];
     dotsNumber;
     points;
 
     constructor() {
-        this.initiate();
+        this.#createDots();
     }
 
-    initiate() {
+    #createDots() {
         this.points = 0;
+        const coordinates = dotsCoordinates();
         this.dots = [];
-        for (var X = 20; X <= 500; X += 20) {
-            this.roads.forEach((road) =>
-                this.dots.push(new Dot(X, road, true, 0)),
-            );
-            if (!(X === 20 || X === 180 || X === 340 || X === 500)) {
-                this.roads.forEach((road) =>
-                    this.dots.push(new Dot(road, X, true, 0)),
-                );
-            }
-        }
+        
+        coordinates.forEach((c)=>{this.dots.push(new Dot(c))})
+
         this.dotsNumber = this.dots.length;
 
-        var random30to110 = Math.floor(Math.random() * -30) + 111;
-        this.dots[random30to110].super = 1;
-        var random30to110 = Math.floor(Math.random() * -30) + 111;
-        this.dots[random30to110].super = 2;
+        this.dots[this.randomNumber()].setSuper(1);
+        this.dots[this.randomNumber()].setSuper(2);
+    }
+
+    randomNumber() {
+        // Random integer from 2 to dots.length
+        return Math.floor(Math.random() * this.dots.length) + 2;
     }
 
     getPoints() {
