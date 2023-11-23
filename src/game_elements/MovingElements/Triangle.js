@@ -1,5 +1,5 @@
 import Circle from "./Circle.js";
-import TriangleDrawning from "./TriangleDrawning.js";
+import TriangleDrawning from "./drawnings/TriangleDrawning.js";
 
 /*==============================================
 Class Game:
