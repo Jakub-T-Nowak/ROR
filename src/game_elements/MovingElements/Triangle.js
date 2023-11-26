@@ -15,11 +15,12 @@ export default class Triangle extends Circle {
     triangleNumber;
     makeItLessBoring = 0;
 
-    constructor(x, y, rect) {
-        super(x, y, rect);
+    constructor(x, y) {
+        super(x, y);
         this.drawning = new TriangleDrawning(x, y);
         this.triangleNumber = Triangle.number;
         Triangle.number++;
+        // radius ???
     }
 
     restartPosition() {
@@ -37,12 +38,12 @@ export default class Triangle extends Circle {
 
     newPos(_, { x, y, sX, sY }, points) {
         if (this.triangleNumber === 0) {
-            this.newPosB(x, y);
+            this.#newPosB(x, y);
         } else {
             if (points < 110) {
                 this.newPosR(x, y, sX, sY);
             } else {
-                this.newPosB(x, y);
+                this.#newPosB(x, y);
             }
         }
     }
@@ -55,7 +56,7 @@ export default class Triangle extends Circle {
     }
 
     /* ======== 2. New Position (Easy) ======== */
-    newPosB(PacX, PacY) {
+    #newPosB(PacX, PacY) {
         if (
             (this.x === 20 ||
                 this.x === 180 ||
@@ -78,7 +79,7 @@ export default class Triangle extends Circle {
             }
         }
 
-        this._collisionControl();
+        this._calculateNewPosition();
     }
 
     /* ======== 3. New Position  (Hard) ======== */
@@ -122,7 +123,7 @@ export default class Triangle extends Circle {
             if (this.makeItLessBoring === 10) this.makeItLessBoring = 0;
         }
 
-        this._collisionControl();
+        this._calculateNewPosition();
     }
 
     /* ======== 4. Random Direction ======== */

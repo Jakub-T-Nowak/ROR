@@ -37,11 +37,8 @@ export default class LifeCycle {
         this.k = k;
         this.dotsAndPoints = new Dots();
         this.rect = new Board();
-        this.circle = new Circle(20, 20, this.rect);
-        this.triangles.push(
-            new Triangle(500, 500, this.rect),
-            new Triangle(20, 500, this.rect),
-        );
+        this.circle = new Circle(20, 20);
+        this.triangles.push(new Triangle(500, 500), new Triangle(20, 500));
         this.movingElements = [this.circle, ...this.triangles];
     }
 
@@ -107,7 +104,7 @@ export default class LifeCycle {
             this.dotsAndPoints.getPoints() === thirdTrianglePoints &&
             this.triangles.length === 2
         ) {
-            this.triangles[2] = new Triangle(20, 500, this.rect);
+            this.triangles.push(new Triangle(20, 500));
             this.movingElements.push(this.triangles[2]);
         }
     }

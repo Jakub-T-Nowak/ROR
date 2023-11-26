@@ -1,4 +1,6 @@
 import CircleDrawning from "./drawnings/CircleDrawning.js";
+import { rectanglesCoordinates } from "../Coordinates.js";
+import { collisionControl } from "./CollisionControl.js";
 
 /*============================
 Class Circle:
@@ -16,15 +18,15 @@ export default class Circle {
     speedY = 0;
     b = 0;
 
-    /* ======== 1. Constructor ======== */
-    constructor(x, y, rect) {
+    constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.board = rect;
-        this.gameBackground = rect.getBoard()[0];
+        this.board = rectanglesCoordinates();
+        this.gameBackground = this.board[0];
         this.drawning = new CircleDrawning(x, y);
+        this.radius = this.drawning.radius;
     }
-
+    
     getX() {
         return this.x;
     }
@@ -36,7 +38,7 @@ export default class Circle {
     }
 
     getParams() {
-        return { x: this.x, y: this.y, sX: this.speedX, sY: this.speedY };
+        return { ...this.getXY() , sX: this.speedX, sY: this.speedY };
     }
 
     superMode() {
@@ -46,16 +48,14 @@ export default class Circle {
         }, 5000);
     }
 
-    /* ======== 3. Update - where to draw ======== */
     update() {
         this.drawning.update(this.x, this.y, this.speedX, this.speedY);
     }
 
-    /* ======== 4. New Position ======== */
     newPos(clickedKey) {
         this.b = clickedKey;
         this._encodingSpeed();
-        this._collisionControl();
+        this._calculateNewPosition();
     }
 
     restartPosition() {
@@ -78,35 +78,35 @@ export default class Circle {
         }
     }
 
-    _collisionControl() {
-        //border
-        if (this.x == this.gameBackground.x + 20 && this.speedX <= 0) {
-            this.speedX = 0;
-        }
-        if (
-            this.x == this.gameBackground.x + this.gameBackground.width - 20 &&
-            this.speedX >= 0
-        ) {
-            this.speedX = 0;
-        }
-        if (this.y == this.gameBackground.y + 20 && this.speedY <= 0) {
-            this.speedY = 0;
-        }
-        if (
-            this.y == this.gameBackground.y + this.gameBackground.height - 20 &&
-            this.speedY >= 0
-        ) {
-            this.speedY = 0;
-        }
-        //rectangles:
-        this.speedX = this.board.collisionControl(this.x, this.y, this.speedX)
-            ? 0
-            : this.speedX;
-        this.speedY = this.board.collisionControl(this.y, this.x, this.speedY)
-            ? 0
-            : this.speedY;
+    _calculateNewPosition() {
+        // == rectangles ==
+        const resultsForX = this.board.map((rectangle, index) => {
+            const type = index ? "rectangle" : "border";
+            return collisionControl(
+                this.getXY(),
+                this.speedX,
+                this.radius,
+                rectangle,
+                index,
+                "x",
+            );
+        });
 
-        //rules of changing direction on intersection
+        const resultsForY = this.board.map((rectangle, index) => {
+            const type = index ? "rectangle" : "border";
+            return collisionControl(
+                this.getXY(),
+                this.speedY,
+                this.radius,
+                rectangle,
+                index,
+                "y",
+            );
+        });
+        this.speedX = resultsForX.includes(true) ? 0 : this.speedX;
+        this.speedY = resultsForY.includes(true) ? 0 : this.speedY;
+
+        // == rules of changing direction on intersection ==
         if (0 < this.speedY && this.speedXm1 !== 0) {
             this.speedX = 0;
             this.speedY = 2;
@@ -120,6 +120,7 @@ export default class Circle {
         }
         this.speedXm1 = this.speedX;
 
+        // == turbo ==
         this.x += this.speedX * this.turbo;
         this.y += this.speedY * this.turbo;
     }

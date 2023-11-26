@@ -10,14 +10,17 @@ export default class CircleDrawning {
     i = 100;
     flag = 0;
 
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
     get #context() {
         return contextService;
     }
 
-    /* ======== 1. Constructor ======== */
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
+    get radius() {
+        return 20;
     }
 
     //depending on direction of the Circle center of the Circle is changing its position
