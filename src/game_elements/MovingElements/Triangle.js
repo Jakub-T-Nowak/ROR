@@ -1,4 +1,5 @@
 import Circle from "./Circle.js";
+import { mainAxis } from "../Coordinates.js";
 import TriangleDrawning from "./drawnings/TriangleDrawning.js";
 
 /*==============================================
@@ -57,16 +58,7 @@ export default class Triangle extends Circle {
 
     /* ======== 2. New Position (Easy) ======== */
     #newPosB(PacX, PacY) {
-        if (
-            (this.x === 20 ||
-                this.x === 180 ||
-                this.x === 340 ||
-                this.x === 500) &&
-            (this.y === 20 ||
-                this.y === 180 ||
-                this.y === 340 ||
-                this.y === 500)
-        ) {
+        if (mainAxis.includes(this.x) && mainAxis.includes(this.y)) {
             var random1to10 = Math.floor(Math.random() * -10) + 11;
             if (random1to10 < 7) {
                 this._newDirection(PacX, PacY);
@@ -84,16 +76,7 @@ export default class Triangle extends Circle {
 
     /* ======== 3. New Position  (Hard) ======== */
     newPosR(PacX, PacY, pacSx, pacSy) {
-        if (
-            (this.x === 20 ||
-                this.x === 180 ||
-                this.x === 340 ||
-                this.x === 500) &&
-            (this.y === 20 ||
-                this.y === 180 ||
-                this.y === 340 ||
-                this.y === 500)
-        ) {
+        if (mainAxis.includes(this.x) && mainAxis.includes(this.y)) {
             var dPy = Math.abs(PacY - this.y);
             var dPx = Math.abs(PacX - this.x);
 
@@ -104,13 +87,7 @@ export default class Triangle extends Circle {
                 if (pacSy == -2) PacY -= 80;
             }
 
-            if (
-                this.makeItLessBoring === 1 ||
-                this.makeItLessBoring === 3 ||
-                this.makeItLessBoring === 4 ||
-                this.makeItLessBoring === 5 ||
-                this.makeItLessBoring === 6
-            ) {
+            if (this.makeItLessBoring < 6) {
                 if (PacY < this.y) this.speedY = -2;
                 if (PacY > this.y) this.speedY = 2;
             } else {

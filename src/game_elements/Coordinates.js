@@ -8,6 +8,8 @@
 // _____________
 //     width
 
+const mainAxis = [20, 180, 340, 500];
+
 const rectanglesMemo = [];
 const dotsMemo = [];
 
@@ -15,7 +17,9 @@ const dotsCoordinates = () => {
     if (dotsMemo.length !== 0) {
         return dotsMemo;
     }
-    const XandY = [20, 180, 340, 500];
+
+    const XandY = mainAxis;
+
     for (var x = 20; x <= 500; x += 20) {
         XandY.forEach((y) => dotsMemo.push({ x, y }));
         if (!XandY.includes(x)) {
@@ -33,7 +37,10 @@ const rectanglesCoordinates = () => {
 
     const width = 120;
     const height = 120;
-    const XandY = [40, 200, 360];
+
+    let XandY = mainAxis.map((val) => val + 20);
+    XandY.pop();
+
     rectanglesMemo.push({ x: 0, y: 0, width: 520, height: 520 });
     XandY.forEach((x) => {
         XandY.forEach((y) => {
@@ -44,19 +51,4 @@ const rectanglesCoordinates = () => {
     return rectanglesMemo;
 };
 
-// const rectanglesCoordinates = () => {
-//     const width = 80;
-//     const height = 80;
-//     const XandY = [40, 160, 280, 400];
-//     const coordinates = [];
-//     coordinates.push([0, 0, 520, 520]);
-//     XandY.forEach((x) => {
-//         XandY.forEach((y) => {
-//             coordinates.push([x, y, width, height]);
-//         });
-//     });
-
-//     return coordinates;
-// };
-
-export { dotsCoordinates, rectanglesCoordinates };
+export { dotsCoordinates, rectanglesCoordinates, mainAxis };
