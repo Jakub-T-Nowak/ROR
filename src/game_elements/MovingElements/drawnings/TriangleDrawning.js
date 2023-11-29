@@ -27,7 +27,7 @@ export default class TriangleDrawning {
     }
 
     /* ======== 1. Animation ======== */
-    update(x, y) {
+    update({x, y}) {
         const ctx = this.#context.getContext();
         this.x = x;
         this.y = y;

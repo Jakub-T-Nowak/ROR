@@ -79,12 +79,12 @@ export default class CircleDrawning {
     }
 
     /* ======== 3. Update - where to draw ======== */
-    update(x, y, speedX, speedY) {
+    update({x, y, sX, sY}) {
         const ctx = this.#context.getContext();
         this.x = x;
         this.y = y;
-        this.speedX = speedX;
-        this.speedY = speedY;
+        this.speedX = sX;
+        this.speedY = sY;
         ctx.translate(this.x, this.y);
         this.#animation();
         ctx.translate(-this.x, -this.y);

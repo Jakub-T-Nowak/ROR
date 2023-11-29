@@ -8,6 +8,14 @@ import drawPointsAndLives from "./DrawPointsAndLives.js";
 
 const thirdTrianglePoints = 195;
 
+// move to separate file.
+export const KEY = {
+    UP: "top",
+    RIGHT: "right",
+    DOWN: "bottom",
+    LEFT: "left",
+}
+
 export default class LifeCycle {
     circle; //type: Circle
     rect; //type: [] Rectangle
@@ -15,21 +23,21 @@ export default class LifeCycle {
     dotsAndPoints; //type: Dots
     movingElements; //type: [] Circle
     lives = 0;
-    clickedKey = 0;
+    clickedKey;
     gameInterval; //type: number, interval id
 
     gameNavigation = {
         ArrowLeft: () => {
-            this.clickedKey = 1;
+            this.clickedKey = KEY.LEFT;
         },
         ArrowUp: () => {
-            this.clickedKey = 2;
+            this.clickedKey = KEY.UP;
         },
         ArrowRight: () => {
-            this.clickedKey = 3;
+            this.clickedKey = KEY.RIGHT;
         },
         ArrowDown: () => {
-            this.clickedKey = 4;
+            this.clickedKey = KEY.DOWN;
         },
     };
 
@@ -70,11 +78,11 @@ export default class LifeCycle {
         this.movingElements.forEach((element) =>
             element.newPos(
                 this.clickedKey,
-                this.circle.getParams(),
+                this.circle.params,
                 this.dotsAndPoints.getPoints(),
             ),
         );
-        const superDotEaten = this.dotsAndPoints.drawDots(this.circle.getXY());
+        const superDotEaten = this.dotsAndPoints.drawDots(this.circle.xy);
         this.addThirdTriangle();
         this.movingElements.forEach((element) => element.update());
         drawPointsAndLives(this.dotsAndPoints.getPoints(), this.lives);

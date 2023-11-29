@@ -1,4 +1,5 @@
 import CircleDrawning from "./drawnings/CircleDrawning.js";
+import { KEY } from "../LifeCycle.js";
 import { rectanglesCoordinates } from "../Coordinates.js";
 import { collisionControl } from "./CollisionControl.js";
 
@@ -16,29 +17,28 @@ export default class Circle {
     turbo = 1;
     speedX = 0;
     speedY = 0;
-    b = 0;
 
     constructor(x, y) {
         this.x = x;
         this.y = y;
         this.board = rectanglesCoordinates();
-        this.gameBackground = this.board[0];
         this.drawning = new CircleDrawning(x, y);
         this.radius = this.drawning.radius;
     }
-    
+
     getX() {
         return this.x;
     }
     getY() {
         return this.y;
     }
-    getXY() {
+
+    get xy() {
         return { x: this.x, y: this.y };
     }
 
-    getParams() {
-        return { ...this.getXY() , sX: this.speedX, sY: this.speedY };
+    get params() {
+        return { ...this.xy, sX: this.speedX, sY: this.speedY };
     }
 
     superMode() {
@@ -49,41 +49,43 @@ export default class Circle {
     }
 
     update() {
-        this.drawning.update(this.x, this.y, this.speedX, this.speedY);
+        this.drawning.update(this.params);
     }
 
     newPos(clickedKey) {
-        this.b = clickedKey;
-        this._encodingSpeed();
+        this._encodingSpeed(clickedKey);
         this._calculateNewPosition();
     }
 
     restartPosition() {
-        this.b = 0;
         this.speedX = 0;
         this.speedY = 0;
         this.x = 20;
         this.y = 20;
     }
 
-    _encodingSpeed() {
-        if (this.b == 1) {
-            this.speedX = -2;
-        } else if (this.b == 2) {
-            this.speedY = -2;
-        } else if (this.b == 3) {
-            this.speedX = 2;
-        } else if (this.b == 4) {
-            this.speedY = 2;
+    _encodingSpeed(clickedKey) {
+        switch (clickedKey) {
+            case KEY.LEFT:
+                this.speedX = -2;
+                break;
+            case KEY.UP:
+                this.speedY = -2;
+                break;
+            case KEY.RIGHT:
+                this.speedX = 2;
+                break;
+            case KEY.DOWN:
+                this.speedY = 2;
+                break;
         }
     }
 
     _calculateNewPosition() {
         // == rectangles ==
         const resultsForX = this.board.map((rectangle, index) => {
-            const type = index ? "rectangle" : "border";
             return collisionControl(
-                this.getXY(),
+                this.xy,
                 this.speedX,
                 this.radius,
                 rectangle,
@@ -93,9 +95,8 @@ export default class Circle {
         });
 
         const resultsForY = this.board.map((rectangle, index) => {
-            const type = index ? "rectangle" : "border";
             return collisionControl(
-                this.getXY(),
+                this.xy,
                 this.speedY,
                 this.radius,
                 rectangle,
@@ -103,17 +104,16 @@ export default class Circle {
                 "y",
             );
         });
-        this.speedX = resultsForX.includes(true) ? 0 : this.speedX;
-        this.speedY = resultsForY.includes(true) ? 0 : this.speedY;
+        if (resultsForX.includes(true)) {
+            this.speedX = 0;
+        }
+        if (resultsForY.includes(true)) {
+            this.speedY = 0;
+        }
 
         // == rules of changing direction on intersection ==
-        if (0 < this.speedY && this.speedXm1 !== 0) {
+        if (this.speedY !== 0 && this.speedXm1 !== 0) {
             this.speedX = 0;
-            this.speedY = 2;
-        }
-        if (0 > this.speedY && this.speedXm1 !== 0) {
-            this.speedX = 0;
-            this.speedY = -2;
         }
         if (this.speedX !== 0 && this.speedY !== 0) {
             this.speedY = 0;
