@@ -1,10 +1,10 @@
-import Triangle from "./movingElements/Triangle.js";
-import Board from "./board/Board.js";
-import Circle from "./movingElements/Circle.js";
-import Dots from "./Dots.js";
-import gameOverPanel from "./GameOverPanel.js";
-import lostLifePanel from "./LostLifePanel.js";
-import drawPointsAndLives from "./DrawPointsAndLives.js";
+import Triangle from "./movingElements/Triangle";
+import { drawBoard } from "./board/DrawBoard";
+import Circle from "./movingElements/Circle";
+import Dots from "./Dots";
+import gameOverPanel from "./GameOverPanel";
+import { lostLifePanel, pausePanel } from "./LostLifePanel";
+import drawPointsAndLives from "./DrawPointsAndLives";
 
 const thirdTrianglePoints = 195;
 
@@ -14,11 +14,10 @@ export const KEY = {
     RIGHT: "right",
     DOWN: "bottom",
     LEFT: "left",
-}
+};
 
 export default class LifeCycle {
     circle; //type: Circle
-    rect; //type: [] Rectangle
     triangles = []; //type: [] Triangle
     dotsAndPoints; //type: Dots
     movingElements; //type: [] Circle
@@ -39,12 +38,14 @@ export default class LifeCycle {
         ArrowDown: () => {
             this.clickedKey = KEY.DOWN;
         },
+        KeyP: () => {
+            this.userPause();
+        },
     };
 
     constructor(k) {
         this.k = k;
         this.dotsAndPoints = new Dots();
-        this.rect = new Board();
         this.circle = new Circle(20, 20);
         this.triangles.push(new Triangle(500, 500), new Triangle(20, 500));
         this.movingElements = [this.circle, ...this.triangles];
@@ -74,7 +75,7 @@ export default class LifeCycle {
     }
 
     gameStep() {
-        this.rect.drawBoard();
+        drawBoard();
         this.movingElements.forEach((element) =>
             element.newPos(
                 this.clickedKey,
@@ -107,6 +108,22 @@ export default class LifeCycle {
         drawPointsAndLives(this.dotsAndPoints.getPoints(), this.lives);
     }
 
+    userPause() {
+        clearInterval(this.gameInterval);
+        const start = () => {
+            this.k.rules = this.gameNavigation;
+            this.gameInterval = setInterval(() => {
+                this.updateGameArea();
+            }, 20);
+        };
+        this.k.rules = {
+            KeyP: () => {
+                start();
+            },
+        };
+        pausePanel();
+    }
+
     addThirdTriangle() {
         if (
             this.dotsAndPoints.getPoints() === thirdTrianglePoints &&
@@ -119,11 +136,13 @@ export default class LifeCycle {
 
     lostLife() {
         this.movingElements.forEach((element) => element.restartPosition());
+        this.k.rules = {};
         lostLifePanel();
         setTimeout(() => {
             this.gameInterval = setInterval(() => {
                 this.updateGameArea();
             }, 20);
+            this.k.rules = this.gameNavigation;
             this.clickedKey = 0;
         }, 2000);
     }
